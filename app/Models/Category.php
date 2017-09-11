@@ -82,6 +82,16 @@ class Category extends Model
     }
 
     /**
+     * Get recursive all the childs of the childs of the childs and go on
+     *
+     * @return mixed
+     */
+    public function recursiveChildCategories()
+    {
+        return $this->childCategories()->with('recursiveChildCategories');
+    }
+
+    /**
      * Recursive function that fetch all the Childs Ids
      * releted to the current Category
      *
@@ -108,7 +118,7 @@ class Category extends Model
      * get the categories that are not children of any category
      *
      * @param  Builder $builder
-     * @return void           
+     * @return void
      */
     public function scopeTopLevel(Builder $builder)
     {

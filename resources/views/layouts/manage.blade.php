@@ -17,6 +17,7 @@
 
   <!-- Main styles for this application -->
   <link href="{{ asset('css/base-manage.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/manage.css') }}" rel="stylesheet">
 
   @routes
 </head>

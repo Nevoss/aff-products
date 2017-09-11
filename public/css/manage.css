@@ -1,0 +1,74 @@
+.card-header .btn-sm,
+.card-header .btn-group-sm > .btn {
+  margin-top: 0px;
+}
+
+.mylist {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.mylist__li {
+  padding-left: 60px;
+}
+
+.mylist__wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  height: 60px;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+}
+
+.mylist__wrapper:hover {
+  background: #fcfcfc;
+}
+
+.mylist__wrapper:hover .mylist__actions {
+  opacity: 1;
+}
+
+.mylist__actions {
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+  opacity: 0;
+}
+
+.mylist__plusHolder {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 60px;
+  border-right: 1px solid #ddd;
+  background: #f0f3f5;
+  height: 100%;
+  margin-right: 20px;
+  font-size: 1.2em;
+}
+
+.mylist__plusHolder i {
+  cursor: pointer;
+}
+
+.card-block > .mylist:first-child {
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+
+.card-block > .mylist:first-child > .mylist__li {
+  padding-left: 0px;
+}
+

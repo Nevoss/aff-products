@@ -32,4 +32,11 @@ abstract class TestCase extends BaseTestCase
     {
         return (!$user) ? $this->be(create(User::class)) : $this->be($user);
     }
+
+    protected function signInAsAdmin()
+    {
+        return $this->signIn(create(User::class, [
+            'is_admin' => true,
+        ]));
+    }
 }

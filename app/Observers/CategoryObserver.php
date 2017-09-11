@@ -15,4 +15,17 @@ class CategoryObserver
     {
         $category->slug = str_slug($category->name);
     }
+
+    /**
+     * Hit the method when deleting category
+     *
+     * @param  Category $category
+     * @return void
+     */
+    public function deleting(Category $category)
+    {
+        $category->products()->detach($category->id);
+
+        $category->childCategories->each->delete();
+    }
 }
