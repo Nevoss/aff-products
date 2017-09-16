@@ -15,14 +15,15 @@
       <div class="mylist__actions ml-auto mr-3">
         <!-- <button type="button" class="btn btn-sm btn-outline-success"> <i class="icon-plus"></i> Add Sub </button> -->
         <button type="button" class="btn btn-sm btn-outline-warning"> <i class="icon-pencil"></i> Edit </button>
-        <button type="button" class="btn btn-sm btn-outline-danger"> <i class="icon-trash"></i> Delete </button>
+        <button type="button" class="btn btn-sm btn-outline-danger" @click="destroy({slug: category.slug, name: category.name})"> <i class="icon-trash"></i> Delete </button>
       </div>
 
     </div>
 
     <categories-list
       v-if="category.child_categories.length > 0 && (isOpenObject[index])"
-      :data-categories="category.child_categories">
+      :data-categories="category.child_categories"
+      @destroy="destroy">
     </categories-list>
 
   </li>
@@ -53,6 +54,10 @@ export default {
 
       Vue.set(this.isOpenObject, index, (this.isOpenObject[index]) ? false : true)
     },
+
+    destroy({slug, name}) {
+      this.$emit('destroy', {slug, name})
+    }
   }
 }
 </script>

@@ -42,7 +42,7 @@ class ManageCategoriesController extends Controller
 
         Category::create($data);
 
-        return response()->json([], 200);
+        return response()->json([], 204);
     }
 
     /**
@@ -57,7 +57,20 @@ class ManageCategoriesController extends Controller
 
         $category->update($data);
 
-        return response()->json([], 200);
+        return response()->json([], 204);
+    }
+
+    /**
+     * Delete Category
+     *
+     * @param  Category $category
+     * @return Response
+     */
+    public function destroy(Category $category)
+    {
+        $category->delete();
+
+        return response()->json([], 204);
     }
 
     /**
