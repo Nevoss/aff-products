@@ -30,4 +30,16 @@ class ViewCategoriesTest extends TestCase
         $this->assertEquals($grandChid->id, $response['data'][0]['child_categories'][0]['child_categories'][0]['id']);
     }
 
+    /** @test */
+    public function an_admin_can_fetch_single_category()
+    {
+        $this->signInAsAdmin();
+
+        $category = create(Category::class);
+
+        $response = $this->getJson("/manage/api/categories/{$category->slug}")->json();
+
+        $this->assertEquals($category->id, $response['data']['id']);
+    }
+
 }

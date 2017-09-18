@@ -32,6 +32,17 @@ class ManageCategoriesController extends Controller
     }
 
     /**
+     * Get single Category
+     *
+     * @param  Category $category
+     * @return CategoryResource             
+     */
+    public function show(Category $category)
+    {
+        return new CategoryResource($category);
+    }
+
+    /**
      * Store Category
      *
      * @return Response

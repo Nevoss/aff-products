@@ -43802,6 +43802,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewCategory_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NewCategory_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_Delete_vue__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_Delete_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__common_Delete_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EditCategory_vue__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__EditCategory_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__EditCategory_vue__);
 //
 //
 //
@@ -43828,6 +43830,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
 
 
 
@@ -43835,7 +43840,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    CategoriesList: __WEBPACK_IMPORTED_MODULE_0__CategoriesList_vue___default.a, NewCategory: __WEBPACK_IMPORTED_MODULE_1__NewCategory_vue___default.a, DeleteCategory: __WEBPACK_IMPORTED_MODULE_2__common_Delete_vue___default.a
+    CategoriesList: __WEBPACK_IMPORTED_MODULE_0__CategoriesList_vue___default.a, NewCategory: __WEBPACK_IMPORTED_MODULE_1__NewCategory_vue___default.a, DeleteCategory: __WEBPACK_IMPORTED_MODULE_2__common_Delete_vue___default.a, EditCategory: __WEBPACK_IMPORTED_MODULE_3__EditCategory_vue___default.a
   },
   data: function data() {
     return {
@@ -43843,7 +43848,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       destroyObj: {
         slug: null,
         name: null
-      }
+      },
+      currentEditedSlug: null
     };
   },
 
@@ -43869,9 +43875,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       axios.delete(route('manage.categories.destroy', slug)).then(function () {
         _this2.get();
-
         flash('Category Deleted');
-      }).catch(function () {});
+      });
+    },
+    openEditModal: function openEditModal(slug) {
+      this.currentEditedSlug = slug;
+
+      $('#editCategoryModal').modal('show');
     }
   },
   created: function created() {
@@ -43887,6 +43897,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CategoriesList_vue__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CategoriesList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CategoriesList_vue__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -43951,6 +43966,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           name = _ref.name;
 
       this.$emit('destroy', { slug: slug, name: name });
+    },
+    edit: function edit(slug) {
+      this.$emit('edit', slug);
     }
   }
 });
@@ -43979,7 +43997,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }) : _vm._e()]), _vm._v("\r\n      " + _vm._s(category.name) + "\r\n\r\n      "), _c('div', {
       staticClass: "mylist__actions ml-auto mr-3"
-    }, [_vm._m(0, true), _vm._v(" "), _c('button', {
+    }, [_c('button', {
+      staticClass: "btn btn-sm btn-outline-warning",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.edit(category.slug)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "icon-pencil"
+    }), _vm._v(" Edit\r\n        ")]), _vm._v(" "), _c('button', {
       staticClass: "btn btn-sm btn-outline-danger",
       attrs: {
         "type": "button"
@@ -43994,25 +44024,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "icon-trash"
-    }), _vm._v(" Delete ")])])]), _vm._v(" "), (category.child_categories.length > 0 && (_vm.isOpenObject[index])) ? _c('categories-list', {
+    }), _vm._v(" Delete\r\n        ")])])]), _vm._v(" "), (category.child_categories.length > 0 && (_vm.isOpenObject[index])) ? _c('categories-list', {
       attrs: {
         "data-categories": category.child_categories
       },
       on: {
-        "destroy": _vm.destroy
+        "destroy": _vm.destroy,
+        "edit": _vm.edit
       }
     }) : _vm._e()], 1)
   }))
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-sm btn-outline-warning",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "icon-pencil"
-  }), _vm._v(" Edit ")])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -44028,7 +44050,14 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "mt-4"
-  }, [_c('delete-category', {
+  }, [_c('edit-category', {
+    attrs: {
+      "category-slug": _vm.currentEditedSlug
+    },
+    on: {
+      "updated": _vm.get
+    }
+  }), _vm._v(" "), _c('delete-category', {
     attrs: {
       "model-key": _vm.destroyObj.slug,
       "model-name": _vm.destroyObj.name
@@ -44051,7 +44080,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "data-categories": _vm.categories
     },
     on: {
-      "destroy": _vm.askForDelete
+      "destroy": _vm.askForDelete,
+      "edit": _vm.openEditModal
     }
   })], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-4"
@@ -44354,7 +44384,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": ""
     }
-  }, [_c('b', [_vm._v(" ------------------ ")])])
+  }, [_c('b', [_vm._v(" ------------- ")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "btn btn-primary",
@@ -44374,88 +44404,7 @@ if (false) {
 }
 
 /***/ }),
-/* 91 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
+/* 91 */,
 /* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -44494,6 +44443,17 @@ var Form = function () {
       }
 
       this.errors.clear();
+    }
+  }, {
+    key: 'set',
+    value: function set(data) {
+      for (var field in this.originalData) {
+        if (data.hasOwnProperty(field)) {
+          this[field] = data[field];
+        }
+      }
+
+      return this;
     }
   }]);
 
@@ -44633,7 +44593,7 @@ if(false) {
 /* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(91)(undefined);
+exports = module.exports = __webpack_require__(107)(undefined);
 // imports
 
 
@@ -44811,7 +44771,7 @@ if(false) {
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(91)(undefined);
+exports = module.exports = __webpack_require__(107)(undefined);
 // imports
 
 
@@ -44927,6 +44887,366 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-929b40fe", module.exports)
   }
 }
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(105),
+  /* template */
+  __webpack_require__(106),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "c:\\web\\Prj\\AffProducts\\resources\\assets\\js\\manage\\categories\\EditCategory.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] EditCategory.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a23cde26", Component.options)
+  } else {
+    hotAPI.reload("data-v-a23cde26", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__services_Form__ = __webpack_require__(92);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['category-slug'],
+  data: function data() {
+    return {
+      loader: true,
+      form: new __WEBPACK_IMPORTED_MODULE_0__services_Form__["a" /* Form */]({
+        name: null,
+        description: null
+      })
+    };
+  },
+
+  watch: {
+    categorySlug: function categorySlug() {
+      this.get();
+    }
+  },
+  methods: {
+    get: function get() {
+      var _this = this;
+
+      this.loader = true;
+
+      axios.get(route('manage.categories.show', { category: this.categorySlug })).then(function (response) {
+        _this.loader = false;
+        _this.form.set(response.data.data);
+      });
+    },
+    update: function update() {
+      var _this2 = this;
+
+      axios.patch(route('manage.categories.update', { category: this.categorySlug }), this.form.data()).then(function (response) {
+
+        $('#editCategoryModal').modal('hide');
+        _this2.$emit('updated');
+        flash('Category updated!');
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "modal fade",
+    attrs: {
+      "id": "editCategoryModal",
+      "tabindex": "-1",
+      "role": "dialog",
+      "aria-hidden": "true"
+    }
+  }, [_c('div', {
+    staticClass: "modal-dialog",
+    attrs: {
+      "role": "document"
+    }
+  }, [_c('div', {
+    staticClass: "modal-content"
+  }, [_vm._m(0), _vm._v(" "), _c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.update($event)
+      },
+      "keyup": function($event) {
+        _vm.form.errors.clear($event.target.name)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "modal-body loader__container"
+  }, [_c('transition', {
+    attrs: {
+      "name": "fade",
+      "mode": "out-in"
+    }
+  }, [(_vm.loader) ? _c('div', {
+    staticClass: "loader"
+  }, [_c('i', {
+    staticClass: "fa fa-spinner fa-pulse fa-3x fa-fw"
+  })]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v(" Name: ")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.name),
+      expression: "form.name"
+    }],
+    staticClass: "form-control",
+    class: {
+      'is-invalid': _vm.form.errors.has('name')
+    },
+    attrs: {
+      "type": "text",
+      "name": "name"
+    },
+    domProps: {
+      "value": (_vm.form.name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.form.name = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.form.errors.has('name')) ? _c('small', {
+    staticClass: "form-text invalid-feedback"
+  }, [_vm._v("\n              " + _vm._s(_vm.form.errors.get('name')) + "\n            ")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', [_vm._v(" Description: ")]), _vm._v(" "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.description),
+      expression: "form.description"
+    }],
+    staticClass: "form-control",
+    class: {
+      'is-invalid': _vm.form.errors.has('description')
+    },
+    attrs: {
+      "name": "description",
+      "rows": "4"
+    },
+    domProps: {
+      "value": (_vm.form.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.form.description = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.form.errors.has('description')) ? _c('small', {
+    staticClass: "form-text invalid-feedback"
+  }, [_vm._v("\n              " + _vm._s(_vm.form.errors.get('description')) + "\n            ")]) : _vm._e()])], 1), _vm._v(" "), _vm._m(1)])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "modal-header"
+  }, [_c('h5', {
+    staticClass: "modal-title"
+  }, [_vm._v("Edit Category")]), _vm._v(" "), _c('button', {
+    staticClass: "close",
+    attrs: {
+      "type": "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c('span', {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "modal-body text-right"
+  }, [_c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Update")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "data-dismiss": "modal"
+    }
+  }, [_vm._v("Cancel")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-a23cde26", module.exports)
+  }
+}
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
 
 /***/ })
 /******/ ]);

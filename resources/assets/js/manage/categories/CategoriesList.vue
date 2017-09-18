@@ -14,8 +14,12 @@
 
       <div class="mylist__actions ml-auto mr-3">
         <!-- <button type="button" class="btn btn-sm btn-outline-success"> <i class="icon-plus"></i> Add Sub </button> -->
-        <button type="button" class="btn btn-sm btn-outline-warning"> <i class="icon-pencil"></i> Edit </button>
-        <button type="button" class="btn btn-sm btn-outline-danger" @click="destroy({slug: category.slug, name: category.name})"> <i class="icon-trash"></i> Delete </button>
+        <button type="button" class="btn btn-sm btn-outline-warning" @click="edit(category.slug)">
+          <i class="icon-pencil"></i> Edit
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-danger" @click="destroy({slug: category.slug, name: category.name})">
+          <i class="icon-trash"></i> Delete
+        </button>
       </div>
 
     </div>
@@ -23,7 +27,8 @@
     <categories-list
       v-if="category.child_categories.length > 0 && (isOpenObject[index])"
       :data-categories="category.child_categories"
-      @destroy="destroy">
+      @destroy="destroy"
+      @edit="edit">
     </categories-list>
 
   </li>
@@ -57,6 +62,10 @@ export default {
 
     destroy({slug, name}) {
       this.$emit('destroy', {slug, name})
+    },
+
+    edit(slug) {
+      this.$emit('edit', slug)
     }
   }
 }

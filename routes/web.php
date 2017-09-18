@@ -23,6 +23,7 @@ Route::group([ 'prefix' => '/manage', 'middleware' => ['onlyAdmins'] ], function
 
     Route::get('/api/categories', 'Manage\ManageCategoriesController@index')->name('manage.categories.index');
     Route::post('/api/categories', 'Manage\ManageCategoriesController@store')->name('manage.categories.store');
+    Route::get('/api/categories/{category}', 'Manage\ManageCategoriesController@show')->name('manage.categories.show');
     Route::patch('/api/categories/{category}', 'Manage\ManageCategoriesController@update')->name('manage.categories.update');
     Route::delete('/api/categories/{category}', 'Manage\ManageCategoriesController@destroy')->name('manage.categories.destroy');
 

@@ -1,6 +1,8 @@
 <template lang="html">
 <div class="mt-4">
 
+  <edit-category :category-slug="currentEditedSlug" @updated="get"></edit-category>
+
   <delete-category :model-key="destroyObj.slug" :model-name="destroyObj.name" @agree="destroy">
     if there this category has child categories they will be removed
   </delete-category>
@@ -13,7 +15,7 @@
           <!-- <button type="button" class="btn btn-sm btn-outline-success ml-auto"> <i class="icon-plus"></i> New Category </button> -->
         </div>
         <div class="card-block">
-          <categories-list :data-categories="categories" @destroy="askForDelete"></categories-list>
+          <categories-list :data-categories="categories" @destroy="askForDelete" @edit="openEditModal"></categories-list>
         </div>
       </div>
     </div>
@@ -28,10 +30,11 @@
 import CategoriesList from './CategoriesList.vue'
 import NewCategory from './NewCategory.vue'
 import DeleteCategory from '../common/Delete.vue'
+import EditCategory from './EditCategory.vue'
 
 export default {
   components: {
-    CategoriesList, NewCategory, DeleteCategory
+    CategoriesList, NewCategory, DeleteCategory, EditCategory
   },
   data() {
     return {
@@ -39,7 +42,8 @@ export default {
       destroyObj: {
         slug: null,
         name: null,
-      }
+      },
+      currentEditedSlug: null,
     }
   },
   methods: {
@@ -58,13 +62,15 @@ export default {
     destroy(slug) {
       axios.delete(route('manage.categories.destroy', slug)).then(() => {
         this.get()
-
         flash('Category Deleted')
-
-      }).catch(() => {
-
       })
-    }
+    },
+
+    openEditModal(slug) {
+      this.currentEditedSlug = slug
+
+      $('#editCategoryModal').modal('show')
+    },
   },
   created() {
     this.get()

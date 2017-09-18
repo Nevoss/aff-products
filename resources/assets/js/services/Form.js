@@ -25,4 +25,14 @@ export class Form {
     this.errors.clear();
   }
 
+  set(data) {
+    for (var field in this.originalData) {
+      if (data.hasOwnProperty(field)) {
+        this[field] = data[field];
+      }
+    }
+
+    return this
+  }
+
 }

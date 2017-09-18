@@ -15,7 +15,7 @@
         <div class="form-group">
           <label> Parent Category: </label>
             <select class="form-control" v-model="form.parent_id" name="parent_id" :class="{ 'is-invalid': form.errors.has('parent_id') }">
-              <option value=""><b> ------------------ </b></option>
+              <option value=""><b> ------------- </b></option>
               <option :value="category.id" v-for="category in categories"> {{ category.name }} </option>
             </select>
             <small class="form-text invalid-feedback" v-if="form.errors.has('parent_id')">
