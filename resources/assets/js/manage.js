@@ -14,6 +14,7 @@ window.flash = (body, status = 'success') => {
 }
 
 Vue.component('categories', require('./manage/categories/Categories.vue'));
+Vue.component('products', require('./manage/products/Products.vue'));
 Vue.component('flash', require('./manage/common/Flash.vue'));
 
 const app = new Vue({

@@ -47,11 +47,13 @@ abstract class Filters
     {
         $this->builder = $builder;
 
-        $this->getFilters()
+        $filters = $this->getFilters();
+
+        $filters->keys()
             ->filter(function($filter) {
                 return method_exists($this, $filter);
-            })->each(function ($filter, $value) {
-                $this->{$filter}($value);
+            })->each(function ($filter) use ($filters) {
+                $this->{$filter}($filters[$filter]);
             });
 
         return $this->builder;
@@ -64,6 +66,6 @@ abstract class Filters
      */
     protected function getFilters()
     {
-        return collect($this->request->only($this->filters))->flip();
+        return collect($this->request->only($this->filters));
     }
 }

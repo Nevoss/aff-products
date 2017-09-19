@@ -14,6 +14,13 @@ class Vendor extends Model
     public $timestamps = false;
 
     /**
+     * hide props in searlize to json
+     *
+     * @var array
+     */
+    protected $hidden = ['class_path'];
+
+    /**
      * guarded columns
      *
      * @var array

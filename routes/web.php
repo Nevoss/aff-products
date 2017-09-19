@@ -30,6 +30,7 @@ Route::group([ 'prefix' => '/manage', 'middleware' => ['onlyAdmins'] ], function
     /**
      * Manage Products
      */
+    Route::get('/products', 'Manage\ManageProductsController@view')->name('manage.products.view');
 
     Route::get('/api/products', 'Manage\ManageProductsController@index')->name('manage.products.index');
 

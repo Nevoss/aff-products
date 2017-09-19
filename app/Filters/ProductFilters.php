@@ -11,7 +11,7 @@ class ProductFilters extends Filters
      * Filters that can be excute
      * @var array
      */
-    protected $filters = ['price', 'latest', 'search'];
+    protected $filters = ['price', 'latest', 'search', 'category'];
 
     /**
      * Order by price
@@ -50,6 +50,19 @@ class ProductFilters extends Filters
     public function search($value)
     {
         $this->builder->where('title', 'LIKE', "%{$value}%");
+    }
+
+    /**
+     * Fiter by categories
+     *
+     * @param  array $categories
+     * @return void             
+     */
+    public function category($categories)
+    {
+        $this->builder->whereHas('categories', function ($builder) use ($categories) {
+            $builder->whereIn('slug', $categories);
+        });
     }
 
 }

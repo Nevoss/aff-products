@@ -22,7 +22,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $with = ['categories'];
+    protected $with = ['categories', 'vendor'];
 
     /**
      * hide props in searlize to json
@@ -48,7 +48,7 @@ class Product extends Model
      */
     public function vendor()
     {
-        $this->belongsTo(Vendor::class);
+        return $this->belongsTo(Vendor::class);
     }
 
     /**

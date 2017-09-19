@@ -105,3 +105,17 @@
   opacity: 0;
 }
 
+.tag {
+  display: inline-block;
+  padding: .5em .4em;
+  font-size: 75%;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  vertical-align: baseline;
+}
+
+.tag-primary {
+  background: #21a8d8;
+}
+

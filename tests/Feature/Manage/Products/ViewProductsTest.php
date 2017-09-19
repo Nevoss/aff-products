@@ -5,6 +5,7 @@ namespace Tests\Feature\Manage;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Product;
+use App\Models\Category;
 
 class ViewProductsTest extends TestCase
 {
@@ -31,7 +32,18 @@ class ViewProductsTest extends TestCase
     /** @test */
     public function an_admin_can_filter_products_with_categories()
     {
-        // Create Filter
+        $category = create(Category::class);
+        $secCategory = create(Category::class);
+        $thirdCategory = create(Category::class);
+
+        create(Product::class)->categories()->attach($category->id);
+        create(Product::class)->categories()->attach($secCategory->id);
+        create(Product::class)->categories()->attach($thirdCategory->id);
+
+        $response = $this->getJson("/manage/api/products?category[]={$category->slug}&category[]={$secCategory->slug}")
+            ->json();
+
+        $this->assertCount(2, $response['data']);
     }
 
 }
