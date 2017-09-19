@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ObserversServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
+        App\Providers\VendorsIntegrationServiceProvider::class,
 
     ],
 

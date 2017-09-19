@@ -34,14 +34,4 @@ class ManageProductsController extends Controller
             $products
         );
     }
-
-    /**
-     * Get product from a vendor and store it
-     *
-     * @return void 
-     */
-    public function storeFromVendor()
-    {
-
-    }
 }

@@ -15,14 +15,20 @@ class VendorsSeeder extends Seeder
     {
         Vendor::create([
             'name' => 'eBay',
+            'key' => 'ebay',
+            'class_path' => 'App\VendorsIntegration\Integrations\EbayIntegration'
         ]);
 
         Vendor::create([
             'name' => 'AliExpress',
+            'key' => 'aliexpress',
+            'class_path' => 'App\VendorsIntegration\Integrations\AliExpressIntegration'
         ]);
 
         Vendor::create([
             'name' => 'Amazon',
+            'key' => 'amazon',
+            'class_path' => 'App\VendorsIntegration\Integrations\AmazonIntegration'
         ]);
     }
 }

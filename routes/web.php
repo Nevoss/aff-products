@@ -34,4 +34,6 @@ Route::group([ 'prefix' => '/manage', 'middleware' => ['onlyAdmins'] ], function
 
     Route::get('/api/products', 'Manage\ManageProductsController@index')->name('manage.products.index');
 
+    Route::post('/api/vendors/{vendorId}/product', 'Manage\ManageVendorsProductsController@store')->name('manage.vendors.products.store');
+
 });
