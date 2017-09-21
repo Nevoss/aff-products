@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 
-class ManageCategoriesController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * show the view of categories
@@ -35,7 +35,7 @@ class ManageCategoriesController extends Controller
      * Get single Category
      *
      * @param  Category $category
-     * @return CategoryResource             
+     * @return CategoryResource
      */
     public function show(Category $category)
     {

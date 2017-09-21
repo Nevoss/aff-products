@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Manage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ManageHomeController extends Controller
+class HomeController extends Controller
 {
     /**
      * The main manage method
      *
-     * @return View 
+     * @return View
      */
     public function index()
     {

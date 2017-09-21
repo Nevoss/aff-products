@@ -1,24 +1,22 @@
 <?php
 namespace App\VendorsIntegration\Responses\ItemResponses;
 
-use App\VendorsIntegration\Responses\ItemResponses\ItemResponseInterface;
+use App\VendorsIntegration\Responses\ItemResponses\ItemResponseAbstract;
 
-class EbayItemResponse implements ItemResponseInterface
+class EbayItemResponse extends ItemResponseAbstract
 {
     /**
-     * Hold the ebay original Response
+     * convert original response object to ItemResponseAbstrat class
      *
-     * @var mixed
+     * @return void
      */
-    protected $itemOriginalResponse;
-
-    /**
-     * create EbayItemResponse class
-     *
-     * @param Object $itemOriginalResponse
-     */
-    public function __construct($itemOriginalResponse)
+    protected function convert()
     {
-        $this->itemOriginalResponse = $itemOriginalResponse;
+        $itemData = $this->itemOriginalResponse->items[0];
+
+        $this->itemId = $itemData->itemId;
+        $this->price = $itemData->price->value;
+        $this->image = $itemData->image->imageUrl;
+        $this->link = $itemData->itemAffiliateWebUrl;
     }
 }

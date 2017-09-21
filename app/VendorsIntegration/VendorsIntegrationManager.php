@@ -8,11 +8,18 @@ use App\VendorsIntegration\Exceptions\VendorNotFoundException;
 class VendorsIntegrationManager
 {
     /**
-     * Chooser vendor id
+     * Choosen vendor id
      *
      * @var mixed
      */
     protected $vendorId;
+
+    /**
+     * Choosen vendor model
+     *
+     * @var Vendor
+     */
+    protected $vendorModel;
 
     /**
      * the class of the integration with the vendor
@@ -46,11 +53,21 @@ class VendorsIntegrationManager
     /**
      * return the vendor database id
      *
-     * @return mxied
+     * @return mixed
      */
     public function getVendorId()
     {
         return $this->vendorId;
+    }
+
+    /**
+     * return the vendor model
+     *
+     * @return Vendor
+     */
+    public function getVendorModel()
+    {
+        return $this->vendorModel;
     }
 
     /**
@@ -80,7 +97,7 @@ class VendorsIntegrationManager
             throw new VendorNotFoundException();
         }
 
-        return $vendor;
+        return $this->vendorModel = $vendor;
     }
 
     /**

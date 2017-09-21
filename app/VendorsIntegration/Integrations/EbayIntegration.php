@@ -84,7 +84,7 @@ class EbayIntegration implements VendorsIntegrationInterface
                     'headers' => [
                         'Authorization' => "Bearer {$this->bearer}",
                         'X-EBAY-C-ENDUSERCTX' =>
-                            "X-EBAY-C-ENDUSERCTX affiliateCampaignId={$this->config['affId']},affiliateReferenceId=website"
+                            "affiliateCampaignId={$this->config['affId']},affiliateReferenceId=website"
                     ],
                 ]
             );

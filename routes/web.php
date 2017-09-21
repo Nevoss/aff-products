@@ -13,27 +13,27 @@ Route::get('api/products/{category?}', 'Api\ProductsController@index')->name('ap
 
 Route::group([ 'prefix' => '/manage', 'middleware' => ['onlyAdmins'] ], function () {
 
-    Route::get('/', 'Manage\ManageHomeController@index')->name('manage.home');
+    Route::get('/', 'Manage\HomeController@index')->name('manage.home');
 
     /**
      * Manage Categories
      */
 
-    Route::get('/categories', 'Manage\ManageCategoriesController@view')->name('manage.categories.view');
+    Route::get('/categories', 'Manage\CategoriesController@view')->name('manage.categories.view');
 
-    Route::get('/api/categories', 'Manage\ManageCategoriesController@index')->name('manage.categories.index');
-    Route::post('/api/categories', 'Manage\ManageCategoriesController@store')->name('manage.categories.store');
-    Route::get('/api/categories/{category}', 'Manage\ManageCategoriesController@show')->name('manage.categories.show');
-    Route::patch('/api/categories/{category}', 'Manage\ManageCategoriesController@update')->name('manage.categories.update');
-    Route::delete('/api/categories/{category}', 'Manage\ManageCategoriesController@destroy')->name('manage.categories.destroy');
+    Route::get('/api/categories', 'Manage\CategoriesController@index')->name('manage.categories.index');
+    Route::post('/api/categories', 'Manage\CategoriesController@store')->name('manage.categories.store');
+    Route::get('/api/categories/{category}', 'Manage\CategoriesController@show')->name('manage.categories.show');
+    Route::patch('/api/categories/{category}', 'Manage\CategoriesController@update')->name('manage.categories.update');
+    Route::delete('/api/categories/{category}', 'Manage\CategoriesController@destroy')->name('manage.categories.destroy');
 
     /**
      * Manage Products
      */
-    Route::get('/products', 'Manage\ManageProductsController@view')->name('manage.products.view');
+    Route::get('/products', 'Manage\ProductsController@view')->name('manage.products.view');
 
-    Route::get('/api/products', 'Manage\ManageProductsController@index')->name('manage.products.index');
+    Route::get('/api/products', 'Manage\ProductsController@index')->name('manage.products.index');
 
-    Route::post('/api/vendors/{vendorId}/product', 'Manage\ManageVendorsProductsController@store')->name('manage.vendors.products.store');
+    Route::post('/api/vendors/{vendorId}/product', 'Manage\VendorsProductsController@store')->name('manage.vendors.products.store');
 
 });

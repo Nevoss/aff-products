@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use App\Models\Vendor;
 use App\Models\Category;
 use App\Filters\ProductFilters;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\VendorsIntegration\Responses\ItemResponses\ItemResponseAbstract;
 
 class Product extends Model
 {

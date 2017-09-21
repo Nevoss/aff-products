@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use App\VendorsIntegration\Responses\ItemResponses\ItemResponseAbstract;
 
 class Vendor extends Model
 {
@@ -26,4 +28,33 @@ class Vendor extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * Reletion with products
+     *
+     * @return Product
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    /**
+     * Create a product model from a vendor integration response
+     *
+     * @param  ItemResponseAbstract $itemData
+     * @param  array                $extraAttributes
+     * @return Product
+     */
+    public function createProduct(ItemResponseAbstract $itemData, array $extraAttributes)
+    {
+        $data = array_merge([
+            'vendor_product_id' => $itemData->itemId,
+            'price' => $itemData->price,
+            'image' => $itemData->image,
+            'link' => $itemData->link,
+        ], $extraAttributes);
+
+        return $this->products()->create($data);
+    }
 }

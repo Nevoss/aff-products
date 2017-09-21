@@ -16,15 +16,14 @@ class BaseException extends \Exception
     /**
      * Render the exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function render()
     {
         return response()->json([
             'message' => 'Vendor integration failed.',
             'errors' => [
-                'vendor_integration' => 'Somthing went wrong please try agian later.'
+                'vendor_integration' => [ 'Somthing went wrong please try agian later.' ]
             ]
         ], 500);
     }

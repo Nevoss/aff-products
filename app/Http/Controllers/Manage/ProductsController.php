@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 
-class ManageProductsController extends Controller
+class ProductsController extends Controller
 {
     /**
      * show the view of products
