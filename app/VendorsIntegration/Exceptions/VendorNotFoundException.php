@@ -7,6 +7,7 @@ class VendorNotFoundException extends BaseException
 {
     /**
      * Create VendorNotFoundException Class
+     * 
      * @param string $message
      */
     public function __construct($message = 'Vendor not found')

@@ -15,6 +15,11 @@ class ItemNotFoundException extends BaseException
         parent::__construct($message);
     }
 
+    /**
+     * Render the exception into an HTTP response.
+     *
+     * @return Response
+     */
     public function render()
     {
         return response()->json([

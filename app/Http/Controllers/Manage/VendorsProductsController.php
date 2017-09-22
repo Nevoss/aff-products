@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Manage;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\VendorsIntegration\VendorsIntegrationManager;
+use App\VendorsIntegration\VendorsIntegrationInterface;
+use App\Models\Vendor;
 
 class VendorsProductsController extends Controller
 {
@@ -16,26 +17,16 @@ class VendorsProductsController extends Controller
     protected $vendorInegration;
 
     /**
-     * Vendor Model
-     *
-     * @var Vendor
-     */
-    protected $vendorModel;
-
-    /**
      * create VendorsProductsController Class
      *
      * @param VendorsIntegrationManager $vendorsIntegrationManager
      */
-    public function __construct(VendorsIntegrationManager $vendorsIntegrationManager)
+    public function __construct(VendorsIntegrationInterface $vendorsIntegration)
     {
-        $this->vendorInegration = $vendorsIntegrationManager->getVendorIntegration();
-        $this->vendorModel = $vendorsIntegrationManager->getVendorModel();
+        $this->vendorInegration = $vendorsIntegration;
     }
 
     /**
-     * TODO: write a unit test for VendorsIntegration and for this method
-     * 
      * store product, recive an item id the fetch from the vendor the item details
      * then it store it
      *
@@ -44,10 +35,12 @@ class VendorsProductsController extends Controller
      */
     public function store($vendorId)
     {
+        $vendor = Vendor::findOrFail($vendorId);
+
         request()->validate([
             'title' => 'required',
             'item_id' => 'required',
-            'categories_ids' => 'required|array',
+            'categories_ids' => 'nullable|array',
             'categories_ids.*' => 'numeric|exists:categories,id'
         ]);
 
@@ -55,9 +48,9 @@ class VendorsProductsController extends Controller
             request('item_id')
         );
 
-        $this->vendorModel->createProduct(
-            $itemData, request()->all('title', 'description')
-        );
+        $vendor->createProduct($itemData, request()->all('title', 'description'))
+            ->categories()
+            ->sync(request('categories_ids', []));
 
         return response()->json([], 204);
     }

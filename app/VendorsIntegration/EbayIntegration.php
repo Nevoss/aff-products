@@ -1,9 +1,9 @@
 <?php
-namespace App\VendorsIntegration\Integrations;
+namespace App\VendorsIntegration;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
-use App\VendorsIntegration\Integrations\VendorsIntegrationInterface;
+use App\VendorsIntegration\VendorsIntegrationInterface;
 use App\VendorsIntegration\Exceptions\ItemNotFoundException;
 use App\VendorsIntegration\Exceptions\VendorAuthenticationFailedException;
 use App\VendorsIntegration\Responses\ItemResponses\EbayItemResponse;
