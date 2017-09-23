@@ -18,9 +18,9 @@ class VendorsIntegrationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(VendorsIntegrationInterface::class, function ($app) {
-
+            
             $vendorRecord = Vendor::findOrFail(
-                request()->route()->parameter('vendorId')
+                request()->route()->parameter('vendor')
             );
 
             $keys = $this->getVendorConfigKeys($vendorRecord->key);

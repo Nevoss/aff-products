@@ -22,13 +22,11 @@ class VendorsSeeder extends Seeder
         Vendor::create([
             'name' => 'AliExpress',
             'key' => 'aliexpress',
-            'class_path' => 'App\VendorsIntegration\AliExpressIntegration'
         ]);
 
         Vendor::create([
             'name' => 'Amazon',
             'key' => 'amazon',
-            'class_path' => 'App\VendorsIntegration\AmazonIntegration'
         ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use App\VendorsIntegration\Responses\ItemResponses\ItemResponseAbstract;
+use App\Events\Products\ProductCreatedFromVendor;
 
 class Vendor extends Model
 {
@@ -55,6 +56,10 @@ class Vendor extends Model
             'link' => $itemData->link,
         ], $extraAttributes);
 
-        return $this->products()->create($data);
+        $product = $this->products()->create($data);
+
+        event(new ProductCreatedFromVendor($product));
+
+        return $product;
     }
 }

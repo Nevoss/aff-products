@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Filters\ProductFilters;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 use App\VendorsIntegration\Responses\ItemResponses\ItemResponseAbstract;
 
 class Product extends Model
@@ -50,6 +51,17 @@ class Product extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    /**
+     * get image attribute
+     *
+     * @param  string $value
+     * @return string
+     */
+    public function getStorageImageAttribute()
+    {
+        return Storage::url($this->attributes['image']);
     }
 
     /**

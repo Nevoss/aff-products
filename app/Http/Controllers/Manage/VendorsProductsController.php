@@ -33,10 +33,8 @@ class VendorsProductsController extends Controller
      * @param  integer $vendorId
      * @return Response
      */
-    public function store($vendorId)
+    public function store(Vendor $vendor)
     {
-        $vendor = Vendor::findOrFail($vendorId);
-
         request()->validate([
             'title' => 'required',
             'item_id' => 'required',
