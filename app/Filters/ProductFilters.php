@@ -2,8 +2,6 @@
 namespace App\Filters;
 
 use App\Filters\Filters;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
 
 class ProductFilters extends Filters
 {
@@ -56,7 +54,7 @@ class ProductFilters extends Filters
      * Fiter by categories
      *
      * @param  array $categories
-     * @return void             
+     * @return void
      */
     public function category($categories)
     {

@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use App\VendorsIntegration\Responses\ItemResponses\ItemResponseAbstract;
 use App\Events\Products\ProductCreatedFromVendor;
+use App\Filters\VendorFilters;
 
 class Vendor extends Model
 {
@@ -15,13 +17,6 @@ class Vendor extends Model
      * @var boolean
      */
     public $timestamps = false;
-
-    /**
-     * hide props in searlize to json
-     *
-     * @var array
-     */
-    protected $hidden = ['class_path'];
 
     /**
      * guarded columns
@@ -38,6 +33,18 @@ class Vendor extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    /**
+     * activate Filters class
+     *
+     * @param  Builder        $builder
+     * @param  VendorFilters $filters
+     * @return Builder
+     */
+    public function scopeFilter(Builder $builder, VendorFilters $filters)
+    {
+        return $filters->apply($builder);
     }
 
     /**

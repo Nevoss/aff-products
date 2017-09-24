@@ -12,11 +12,7 @@
         <form @submit.prevent="update" @keyup="form.errors.clear($event.target.name)">
           <div class="modal-body loader__container">
 
-            <transition name="fade" mode="out-in">
-              <div class="loader" v-if="loader">
-                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-              </div>
-            </transition>
+            <loader :active="loader"></loader>
 
 
             <div class="form-group">
@@ -48,8 +44,10 @@
 
 <script>
 import { Form } from '../../services/Form'
+import Loader from '../common/Loader.vue'
 
 export default {
+  components: { Loader },
   props: ['category-slug'],
   data() {
     return {

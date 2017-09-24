@@ -11,10 +11,12 @@ export class Form {
     }
 
     this.errors = new Errors()
+
+    this.isSending = false
   }
 
   data () {
-    return _.omit(this, ['errors', 'originalData'])
+    return _.omit(this, ['errors', 'originalData', 'isSending'])
   }
 
   reset () {

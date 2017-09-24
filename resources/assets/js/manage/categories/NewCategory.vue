@@ -40,9 +40,11 @@
 
 <script>
 import { Form } from '../../services/Form'
+import CategoryRecursiveMixin from '../mixins/category_recursive'
 
 export default {
   props: [ 'data-categories' ],
+  mixins: [ CategoryRecursiveMixin ],
   data() {
     return {
       categories: [],
@@ -55,7 +57,7 @@ export default {
   },
   watch: {
     dataCategories(categories) {
-      this.categories = this.recursiveData(categories)
+      this.categories = this.recursiveCategories(categories)
     }
   },
   methods: {
@@ -70,24 +72,6 @@ export default {
         }).catch((error) => {
           this.form.errors.record(error.response.data.errors);
         })
-    },
-
-    recursiveData(categories, prefix = '') {
-      var final = []
-
-      categories.forEach((item) => {
-        final.push({
-          name: prefix + item.name,
-          id: item.id
-        })
-        if (item.child_categories) {
-          final = final.concat(
-            this.recursiveData(item.child_categories, prefix + '-- ')
-          );
-        }
-      })
-
-      return final;
     },
   },
 }

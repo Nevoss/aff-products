@@ -2,6 +2,7 @@ require('./bootstrap');
 
 require('./manage/base')
 
+
 window.Vue = require('vue');
 
 // Events

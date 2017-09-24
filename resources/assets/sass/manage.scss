@@ -2,4 +2,12 @@
   margin-top: 0px;
 }
 
+.table td {
+  vertical-align: middle;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
 @import "manage/all";

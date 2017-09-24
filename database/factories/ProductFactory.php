@@ -9,7 +9,7 @@ $factory->define(App\Models\Product::class, function (Faker $faker) {
         'title' => $faker->words(3, true),
         'description' => $faker->sentence,
         'price' => $faker->randomDigitNotNull,
-        'image' => 'http://via.placeholder.com/300x225',
+        'image' => null,
         'link' => $faker->url,
     ];
 });

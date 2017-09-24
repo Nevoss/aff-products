@@ -61,7 +61,11 @@ class Product extends Model
      */
     public function getStorageImageAttribute()
     {
-        return Storage::url($this->attributes['image']);
+        if ($this->attributes['image']) {
+            return Storage::url($this->attributes['image']);
+        }
+
+        return Storage::url('products/default.png');
     }
 
     /**

@@ -27,6 +27,6 @@ class ItemNotFoundException extends BaseException
             'errors' => [
                 'vendor_integration' => [ 'Cannot find item with the requested id' ]
             ]
-        ]);
+        ], 422);
     }
 }
