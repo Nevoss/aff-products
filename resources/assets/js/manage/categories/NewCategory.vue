@@ -3,7 +3,10 @@
     <div class="card-header">
       New Category
     </div>
-    <div class="card-block">
+    <div class="card-block loader__container">
+
+      <loader :active="loader"></loader>
+
       <form @submit.prevent="send" @keyup="form.errors.clear($event.target.name)">
         <div class="form-group">
           <label> Name: </label>
@@ -41,8 +44,10 @@
 <script>
 import { Form } from '../../services/Form'
 import CategoryRecursiveMixin from '../mixins/category_recursive'
+import Loader from '../common/Loader.vue'
 
 export default {
+  components: { Loader },
   props: [ 'data-categories' ],
   mixins: [ CategoryRecursiveMixin ],
   data() {
@@ -53,6 +58,11 @@ export default {
         parent_id: '',
         description: null,
       })
+    }
+  },
+  computed: {
+    loader() {
+      return this.dataCategories.length == 0
     }
   },
   watch: {

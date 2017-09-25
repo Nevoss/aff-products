@@ -18,20 +18,33 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in products" class="secretTd__container">
+          <tr v-for="product in products" class="secretTd__hover">
             <td>
-              <img :src="product.image" :alt="product.title" width="50">
+              <a :href="route('products.view', { search: product.title })" target="_blank">
+                <img :src="product.image" :alt="product.title" width="50">
+              </a>
             </td>
             <td> {{ product.id }} </td>
-            <td> {{ product.vendor.name }} </td>
+            <td>
+              <a :href="product.link" target="_blank">
+                {{ product.vendor.name }}
+              </a>
+            </td>
             <td> {{ product.title }} </td>
             <td class="nowrap">
               <span v-for="category in product.categories" class="tag tag-primary mr-1"> {{ category.name }} </span>
             </td>
             <td> {{ product.description }} </td>
             <td> ${{ product.price }} </td>
-            <td class="secertTd">
-
+            <td class="secretTd__container">
+              <div class="secretTd">
+                <button type="button" class="btn btn-sm btn-outline-warning mr-2" @click="edit(product.id)">
+                  <i class="icon-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-danger" @click="destroy({id: product.id, title: product.title })">
+                  <i class="icon-trash"></i>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -79,6 +92,14 @@ export default {
       this.pagination = paginationObj
 
       this.get()
+    },
+
+    destroy({id, title}) {
+      this.$emit('destroy', {id, title})
+    },
+
+    edit(id) {
+      this.$emit('edit', id)
     }
   },
   created() {

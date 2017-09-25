@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     get(filters = {}) {
-      axios.get(route('api.products.index', this.withCategory()), {
+      axios.get(route('products.index', this.withCategory()), {
         params: filters
       })
         .then((response) => this.products = response.data.data)

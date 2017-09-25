@@ -31,7 +31,7 @@ export default {
   props: [ 'data' ],
   methods: {
     categoryUrl(category) {
-      return route('products.index', { category: category.slug })
+      return route('products.view', { category: category.slug })
     },
   }
 }

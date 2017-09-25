@@ -2,8 +2,13 @@
   margin-top: 0px;
 }
 
-.table td {
-  vertical-align: middle;
+.table {
+
+  overflow: hidden;
+
+  td {
+    vertical-align: middle;
+  }
 }
 
 .nowrap {

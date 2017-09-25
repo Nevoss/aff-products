@@ -34,4 +34,49 @@ class ProductsController extends Controller
             $products
         );
     }
+
+    /**
+     * Fetch single Prodcut
+     *
+     * @param  Product $product
+     * @return ProdcutResource
+     */
+    public function show(Product $product)
+    {
+        return (new ProductResource($product));
+    }
+
+    /**
+     * Update Prodcut
+     *
+     * @param  Product $product
+     * @return Response
+     */
+    public function update(Product $product)
+    {
+        request()->validate([
+            'title' => 'required',
+            'categories_ids' => 'nullable|array',
+            'categories_ids.*' => 'numeric|exists:categories,id'
+        ]);
+
+        $product->update(request()->all('title', 'description'));
+
+        $product->categories()->sync(request('categories_ids'));
+
+        return response()->json([], 200);
+    }
+
+    /**
+     * Destroy Product record
+     *
+     * @param  Product $product
+     * @return Response
+     */
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return response()->json([], 204);
+    }
 }

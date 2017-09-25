@@ -59,30 +59,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .alert-flash {
-    z-index: 9990;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin-bottom: 1em;
-    margin-right: 1em;
-  }
-
-  .popFromRight {
-    &-enter-active, &-leave-active {
-      transition: 0.3s all;
-    }
-
-    &-enter-to, &-leave {
-      opacity: 1;
-      transform: translateX(0%);
-    }
-
-    &-enter, &-leave-to {
-      opacity: 0.5;
-      transform: translateX(150%);
-    }
-  }
-</style>

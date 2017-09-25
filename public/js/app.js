@@ -1102,6 +1102,14 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 window.jQuery = window.$ = __webpack_require__(34);
 __webpack_require__(35);
 
+window.Vue = __webpack_require__(36);
+
+// Events
+window.events = new Vue();
+
+// Routes
+window.Vue.prototype.route = route;
+
 /***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -43528,8 +43536,6 @@ module.exports = __webpack_require__(60);
 
 __webpack_require__(11);
 
-window.Vue = __webpack_require__(36);
-
 Vue.component('products-list', __webpack_require__(43));
 
 var app = new Vue({
@@ -43620,7 +43626,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var filters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-      axios.get(route('api.products.index', this.withCategory()), {
+      axios.get(route('products.index', this.withCategory()), {
         params: filters
       }).then(function (response) {
         return _this.products = response.data.data;
@@ -43706,7 +43712,7 @@ if(false) {
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(111)(undefined);
+exports = module.exports = __webpack_require__(132)(undefined);
 // imports
 
 
@@ -44544,7 +44550,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   props: ['data'],
   methods: {
     categoryUrl: function categoryUrl(category) {
-      return route('products.index', { category: category.slug });
+      return route('products.view', { category: category.slug });
     }
   }
 });
@@ -44700,7 +44706,28 @@ if (false) {
 /* 108 */,
 /* 109 */,
 /* 110 */,
-/* 111 */
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */
 /***/ (function(module, exports) {
 
 /*

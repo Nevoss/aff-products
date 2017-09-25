@@ -22,8 +22,9 @@ class ProductResource extends Resource
             'price' => $this->price,
             'link' => $this->link,
             'image' => $this->storage_image,
-            'vendor' => new VendorResource($this->vendor),
-            'categories' => CategoryResource::collection($this->categories),
+            'vendor' => new VendorResource($this->whenLoaded('vendor')),
+            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
+            'categories_ids' => $this->when($this->resource->relationLoaded('categories'), $this->categories_ids)
         ];
     }
 }

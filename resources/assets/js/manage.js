@@ -2,12 +2,6 @@ require('./bootstrap');
 
 require('./manage/base')
 
-
-window.Vue = require('vue');
-
-// Events
-window.events = new Vue()
-
 window.flash = (body, status = 'success') => {
   window.events.$emit('flash', {
     body, status

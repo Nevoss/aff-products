@@ -44,6 +44,16 @@ class Product extends Model
     }
 
     /**
+     * get only the ids of the categories
+     *
+     * @return Collection
+     */
+    public function getCategoriesIdsAttribute()
+    {
+        return $this->categories->pluck('id');
+    }
+
+    /**
      * Reletion between Vendor
      *
      * @return Vendor

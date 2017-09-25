@@ -10,7 +10,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" v-if="this.$slots.default">
         <slot></slot>
       </div>
       <div class="modal-body text-right">
@@ -34,6 +34,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-</style>

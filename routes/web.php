@@ -3,9 +3,8 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/products/{category?}', 'ProductsController@index')->name('products.index');
-
-Route::get('api/products/{category?}', 'Api\ProductsController@index')->name('api.products.index');
+Route::get('/products/{category?}', 'ProductsController@view')->name('products.view');
+Route::get('api/products/{category?}', 'ProductsController@index')->name('products.index');
 
 /**
  * Manage Araa
@@ -33,7 +32,9 @@ Route::group([ 'prefix' => '/manage', 'middleware' => ['onlyAdmins'] ], function
     Route::get('/products', 'Manage\ProductsController@view')->name('manage.products.view');
 
     Route::get('/api/products', 'Manage\ProductsController@index')->name('manage.products.index');
-
+    Route::get('/api/products/{product}', 'Manage\ProductsController@show')->name('manage.products.show');
+    Route::delete('/api/products/{product}', 'Manage\ProductsController@destroy')->name('manage.products.destroy');
+    Route::patch('/api/products/{product}', 'Manage\ProductsController@update')->name('manage.products.update');
     Route::post('/api/vendors/{vendor}/product', 'Manage\VendorsProductsController@store')->name('manage.vendors.products.store');
 
     /**

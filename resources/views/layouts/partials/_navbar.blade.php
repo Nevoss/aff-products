@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('products.index') }}"> All Products </a>
+          <a class="nav-link" href="{{ route('products.view') }}"> All Products </a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="productsCategories" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -17,7 +17,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="productsCategories">
             @foreach ($categories as $category)
-              <a class="dropdown-item" href="{{ route('products.index', $category->slug) }}"> {{ $category->name }} </a>
+              <a class="dropdown-item" href="{{ route('products.view', $category->slug) }}"> {{ $category->name }} </a>
             @endforeach
           </div>
         </li>

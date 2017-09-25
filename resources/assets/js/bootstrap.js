@@ -8,3 +8,11 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 
 window.jQuery = window.$ = require('jquery')
 require('bootstrap')
+
+window.Vue = require('vue');
+
+// Events
+window.events = new Vue()
+
+// Routes
+window.Vue.prototype.route = route;

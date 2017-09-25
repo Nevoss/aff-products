@@ -46,4 +46,14 @@ class ViewProductsTest extends TestCase
         $this->assertCount(2, $response['data']);
     }
 
+    /** @test */
+    public function an_admin_can_fetch_single_product()
+    {
+        $product = create(Product::class);
+
+        $response = $this->getJson("/manage/api/products/{$product->id}")->json();
+
+        $this->assertEquals($product->id, $response['data']['id']);
+    }
+
 }
