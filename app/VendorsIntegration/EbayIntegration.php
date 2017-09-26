@@ -5,15 +5,23 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\RequestException;
 use App\VendorsIntegration\VendorsIntegrationInterface;
 use App\VendorsIntegration\Exceptions\ItemNotFoundException;
-use App\VendorsIntegration\Exceptions\VendorAuthenticationFailedException;
+use App\VendorsIntegration\Exceptions\VendorNotFoundException;
 use App\VendorsIntegration\Responses\ItemResponses\EbayItemResponse;
+use App\VendorsIntegration\Exceptions\VendorAuthenticationFailedException;
 
 class EbayIntegration implements VendorsIntegrationInterface
 {
     /**
+     * Unique idenifier to the current integration in the database
+     *
+     * @var string
+     */
+    protected $key;
+
+    /**
      * Ebay Integration config
      *
-     * @var mixed
+     * @var array
      */
     protected $config;
 
@@ -27,18 +35,20 @@ class EbayIntegration implements VendorsIntegrationInterface
     /**
      * the bearer for the request to ebay api
      *
-     * @var mixed
+     * @var string
      */
     protected $bearer;
 
     /**
-     * Create Ebay Itegration class
+     * Ebay Integration constructor
      *
-     * @param array $config
+     * @param string     $key
+     * @param HttpClient $client 
      */
-    public function __construct(array $config, HttpClient $client)
+    public function __construct($key, HttpClient $client)
     {
-        $this->config = $config;
+        $this->key = $key;
+        $this->config = $this->getConfig();
         $this->httpClient = $client;
 
         $this->authRequest();
@@ -94,6 +104,21 @@ class EbayIntegration implements VendorsIntegrationInterface
         } catch (RequestException $e) {
             throw new ItemNotFoundException();
         }
+    }
+
+    /**
+     * get the config of the vendor
+     *
+     * @param  integer $vendorKey
+     * @return array
+     */
+    protected function getConfig()
+    {
+        if (!$config = config("vendors-integrations.{$this->key}")) {
+            throw new VendorNotFoundException("the vendor key '{$this->key}' doesn't have config");
+        }
+
+        return $config;
     }
 
 }

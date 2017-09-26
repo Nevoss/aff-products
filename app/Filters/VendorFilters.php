@@ -20,11 +20,6 @@ class VendorFilters extends Filters
      */
     public function active($value)
     {
-        if (!$value) {
-            $this->builder->whereNull('class_path');
-            return;
-        }
-
-        $this->builder->whereNotNull('class_path');
+        $this->builder->active($value);
     }
 }

@@ -3,16 +3,25 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Product;
-use App\Models\Category;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
-class CategoryTest extends TestCase
+class ProductTest extends TestCase
 {
     /** @test */
     public function its_delete_the_image_after_the_product_deleted()
     {
+        Storage::fake('public');
 
+        $product = create(Product::class, [
+            'image' => $filePath = UploadedFile::fake()->image('product.jpg')->store('products', 'public'),
+        ]);
+
+        $product->delete();
+
+        Storage::disk('public')->assertMissing($filePath);
     }
 
 }

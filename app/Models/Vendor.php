@@ -48,6 +48,23 @@ class Vendor extends Model
     }
 
     /**
+     * brings the vendors that have or dont have class_path attr
+     *
+     * @param  Builder $builder
+     * @param  boolean $isActive
+     * @return void
+     */
+    public function scopeActive(Builder $builder, $isActive = true)
+    {
+        if (!$isActive) {
+            $builder->whereNull('class_path');
+            return;
+        }
+
+        $builder->whereNotNull('class_path');
+    }
+
+    /**
      * Create a product model from a vendor integration response
      *
      * @param  ItemResponseAbstract $itemData
