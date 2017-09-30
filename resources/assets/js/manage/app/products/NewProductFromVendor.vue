@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { Form } from '../../services/Form'
+import { Form } from '../../../services/Form'
 import Loader from '../common/Loader.vue'
 
 export default {

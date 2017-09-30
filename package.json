@@ -12,6 +12,7 @@
   "esnext": "dist/esm/popper.js",
   "devDependencies": {
     "axios": "^0.16.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "cross-env": "^5.0.1",
     "laravel-mix": "^1.0",
     "lodash": "^4.17.4",
@@ -23,6 +24,7 @@
     "jquery": "^3.2.1",
     "popper.js": "^1.12.5",
     "query-string": "^5.0.0",
-    "simple-line-icons": "^2.4.1"
+    "simple-line-icons": "^2.4.1",
+    "vuex": "^2.4.1"
   }
 }

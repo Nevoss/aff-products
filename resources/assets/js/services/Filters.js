@@ -49,7 +49,9 @@ export default class Filter {
    */
   setAll(object) {
     _.each(this.filters, (value, key) => {
-      this.filters[key] = (_.hasIn(object, key) && !object[key]) ? null : object[key]
+      if (_.hasIn(object, key)) {
+        this.filters[key] = (!object[key]) ? null : object[key]
+      }
     })
 
     return this

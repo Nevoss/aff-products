@@ -5,7 +5,7 @@
       <a href="#" class="btn btn-link btn-sm ml-auto" @click.prevent="get"> <i class="fa fa-refresh" aria-hidden="true"></i> </a>
     </div>
     <div class="card-block pb-0">
-      Search Here
+      <filters :page="page" @changed="changeFilters"></filters>
     </div>
     <div class="card-block loader__container">
 
@@ -50,7 +50,7 @@
         </tbody>
       </table>
 
-      <pagination :data-meta="meta" :data-links="links" v-if="meta && links" @changed="changePage"></pagination>
+      <pagination :data-meta="meta" :data-links="links" v-if="meta && links" @changed="page = $event"></pagination>
 
     </div>
   </div>
@@ -59,9 +59,10 @@
 <script>
 import Pagination from '../common/Pagination.vue'
 import Loader from '../common/Loader.vue'
+import Filters from './Filters.vue'
 
 export default {
-  components: { Pagination, Loader },
+  components: { Pagination, Loader, Filters },
   data() {
     return {
       columns: [
@@ -70,28 +71,30 @@ export default {
       products: [],
       meta: null,
       links: null,
-      pagination: { page: 1 },
+      page: 1,
+
+      filtersObj: {},
 
       loader: false,
     }
   },
   methods: {
+    changeFilters(filters) {
+      this.filtersObj = filters
+
+      this.get()
+    },
+
     get() {
       this.loader = true
 
       axios.get(route('manage.products.index'), {
-        params: Object.assign(this.pagination)
+        params: this.filtersObj
       }).then((response) => {
         this.products = response.data.data
         this.meta = response.data.meta
         this.links = response.data.links
       }).catch().then(() => this.loader = false)
-    },
-
-    changePage(paginationObj) {
-      this.pagination = paginationObj
-
-      this.get()
     },
 
     destroy({id, title}) {
@@ -103,8 +106,6 @@ export default {
     }
   },
   created() {
-    this.get()
-
     window.events.$on('products.get', this.get)
   }
 }

@@ -42,4 +42,11 @@ Route::group([ 'prefix' => '/manage', 'middleware' => ['onlyAdmins'] ], function
      */
     Route::get('/api/vendors', 'Manage\VendorsController@index')->name('manage.vendors.index');
 
+    /**
+     * Manage Admins
+     */
+    Route::get('/admins', 'Manage\AdminsController@view')->name('manage.admins.view');
+
+    Route::get('/api/admins', 'Manage\AdminsController@index')->name('manage.admins.index');
+
 });

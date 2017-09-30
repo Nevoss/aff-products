@@ -39,7 +39,7 @@
               <a class="nav-link {{ (request()->route()->getName() == 'manage.home') ? 'active' : '' }}" href="{{ route('manage.home') }}"><i class="icon-speedometer"></i> Home </a>
               <a class="nav-link {{ (request()->route()->getName() == 'manage.categories.view') ? 'active' : '' }}" href="{{ route('manage.categories.view') }}"><i class="icon-list"></i> Categories </a>
               <a class="nav-link {{ (request()->route()->getName() == 'manage.products.view') ? 'active' : '' }}" href="{{ route('manage.products.view') }}"><i class="icon-handbag"></i> Products </a>
-              <a class="nav-link" href="#"><i class="icon-user"></i> Admins </a>
+              <a class="nav-link {{ (request()->route()->getName() == 'manage.admins.view') ? 'active' : '' }}" href="{{ route('manage.admins.view') }}"><i class="icon-user"></i> Admins </a>
             </li>
           </ul>
         </nav>

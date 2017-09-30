@@ -50,7 +50,7 @@ export default {
   methods: {
     change(pageNum) {
       if (this.isExists(pageNum)) {
-        this.$emit('changed', { page: pageNum })
+        this.$emit('changed', pageNum )
       }
     },
 

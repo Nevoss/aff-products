@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { Form } from '../../services/Form'
+import { Form } from '../../../services/Form'
 import CategoryRecursiveMixin from '../mixins/category_recursive'
 import Loader from '../common/Loader.vue'
 

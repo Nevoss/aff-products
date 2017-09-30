@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
-use App\Http\Resources\CategoryResource;
 
-class CategoryResource extends Resource
+class UserResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -18,9 +17,8 @@ class CategoryResource extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'slug' => $this->slug,
-            'description' => $this->description,
-            'child_categories' => CategoryResource::collection($this->whenLoaded('recursiveChildCategories')),
-         ];
+            'email' => $this->email,
+            'is_admin' => $this->isAdmin()
+        ];
     }
 }
