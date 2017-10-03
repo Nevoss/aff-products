@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import CategoryRecursiveMixin from '../mixins/category_recursive'
+import CategoryRecursiveMixin from '../common/mixins/category_recursive'
 import NewProductFromVendor from './NewProductFromVendor.vue'
 import ProductList from './ProductList.vue'
 import EditProduct from './EditProduct.vue'
-import DeleteProduct from '../common/Delete.vue'
+import DeleteProduct from '../common/components/Delete.vue'
 
 export default {
   components: { NewProductFromVendor, ProductList, DeleteProduct, EditProduct },

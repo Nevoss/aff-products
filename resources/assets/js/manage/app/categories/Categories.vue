@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import Loader from '../common/Loader.vue'
+import Loader from '../common/components/Loader.vue'
+import DeleteCategory from '../common/components/Delete.vue'
 import CategoriesList from './CategoriesList.vue'
 import NewCategory from './NewCategory.vue'
-import DeleteCategory from '../common/Delete.vue'
 import EditCategory from './EditCategory.vue'
 
 export default {

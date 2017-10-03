@@ -52,6 +52,7 @@ abstract class TestCase extends BaseTestCase
     {
         return $this->signIn(create(User::class, [
             'is_admin' => true,
+            'name' => 'Admin'
         ]));
     }
 

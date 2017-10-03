@@ -43,8 +43,8 @@
 
 <script>
 import { Form } from '../../../services/Form'
-import CategoryRecursiveMixin from '../mixins/category_recursive'
-import Loader from '../common/Loader.vue'
+import CategoryRecursiveMixin from '../common/mixins/category_recursive'
+import Loader from '../common/components/Loader.vue'
 
 export default {
   components: { Loader },

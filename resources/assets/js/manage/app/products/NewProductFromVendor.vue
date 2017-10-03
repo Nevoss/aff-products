@@ -58,7 +58,7 @@
 
 <script>
 import { Form } from '../../../services/Form'
-import Loader from '../common/Loader.vue'
+import Loader from '../common/components/Loader.vue'
 
 export default {
   components: { Loader },

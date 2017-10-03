@@ -9,36 +9,11 @@ export default class Filter {
    * @return void
    */
   constructor(filters) {
-    this.filters = filters;
-  }
+    this.originalData = filters
 
-  /**
-   * Get all or by key
-   *
-   * @param  mixed key
-   * @return mixed
-   */
-  get(key = false) {
-    if (!key)
-      return this.filters
-
-    if (this.exists(key))
-      return this.filters[key]
-
-    return null
-  }
-
-  /**
-   * set key to filters
-   *
-   * @param string key
-   * @param string value
-   * @return this
-   */
-  set(key, value) {
-    this.filters[key] = (!!value) ? value : null
-
-    return this
+    for (let field in filters) {
+      this[field] = filters[field]
+    }
   }
 
   /**
@@ -48,13 +23,32 @@ export default class Filter {
    * @return this
    */
   setAll(object) {
-    _.each(this.filters, (value, key) => {
+
+    _.each(this.originalData, (value, key) => {
       if (_.hasIn(object, key)) {
-        this.filters[key] = (!object[key]) ? null : object[key]
+        this[key] = (!object[key]) ? null : object[key]
       }
     })
 
     return this
+  }
+
+  /**
+   * Return all the data of the filters
+   *
+   * @return Object
+   */
+  data() {
+    return _.pick(this, Object.keys(this.originalData))
+  }
+
+  /**
+   * striped the object from falsy data
+   *
+   * @return Object
+   */
+  stripedData() {
+    return _.omitBy(this.data(), (value) => !value)
   }
 
   /**
@@ -63,7 +57,7 @@ export default class Filter {
    * @return string
    */
   stringify() {
-    return '?' + queryString.stringify(this.stripedFilters())
+    return (_.isEmpty(this.stripedData())) ? '' : '?' + queryString.stringify(this.stripedData())
   }
 
   /**
@@ -86,7 +80,7 @@ export default class Filter {
    */
   clearKeys(keys = []) {
     _.each(keys, (value) => {
-      this.filters[value] = null
+      this[value] = null
     })
 
     return this
@@ -99,16 +93,8 @@ export default class Filter {
    * @return boolean
    */
   exists(key) {
-    return (_.hasIn(this.filters, key)) ? true : false
+    return (_.hasIn(this.originalData, key)) ? true : false
   }
 
-  /**
-   * return filters array without the null
-   *
-   * @return object
-   */
-  stripedFilters() {
-    return _.omitBy(this.filters, _.isNull)
-  }
 
 }

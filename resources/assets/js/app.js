@@ -7,7 +7,7 @@ import Vuex from 'vuex'
 window.events = new Vue()
 
 // Routes
-window.Vue.prototype.route = route;
+Vue.prototype.route = route;
 
 // Vuex
 Vue.use(Vuex)

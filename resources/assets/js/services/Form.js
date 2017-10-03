@@ -4,15 +4,14 @@ export class Form {
 
   constructor (data) {
 
-    this.originalData = data;
+    this.isSending = false
+    this.originalData = data
 
     for (let field in data) {
       this[field] = data[field]
     }
 
     this.errors = new Errors()
-
-    this.isSending = false
   }
 
   data () {

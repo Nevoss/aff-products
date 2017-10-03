@@ -57,8 +57,8 @@
 </template>
 
 <script>
-import Pagination from '../common/Pagination.vue'
-import Loader from '../common/Loader.vue'
+import Pagination from '../common/components/Pagination.vue'
+import Loader from '../common/components/Loader.vue'
 import Filters from './Filters.vue'
 
 export default {

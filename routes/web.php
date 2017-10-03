@@ -48,5 +48,9 @@ Route::group([ 'prefix' => '/manage', 'middleware' => ['onlyAdmins'] ], function
     Route::get('/admins', 'Manage\AdminsController@view')->name('manage.admins.view');
 
     Route::get('/api/admins', 'Manage\AdminsController@index')->name('manage.admins.index');
+    Route::post('/api/admins', 'Manage\AdminsController@store')->name('manage.admins.store');
+    Route::get('/api/admins/{admin}', 'Manage\AdminsController@show')->name('manage.admins.show');
+    Route::delete('/api/admins/{admin}', 'Manage\AdminsController@destroy')->name('manage.admins.destroy');
+    Route::patch('/api/admins/{admin}', 'Manage\AdminsController@update')->name('manage.admins.update');
 
 });

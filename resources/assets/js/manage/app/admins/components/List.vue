@@ -4,9 +4,11 @@
       Admins
     </div>
     <div class="card-block pb-0">
-      
+      <filters :page="page"></filters>
     </div>
     <div class="card-block loader__container">
+
+      <loader :active="listLoader"></loader>
 
       <table class="table">
         <thead>
@@ -15,10 +17,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="admin in admins">
+          <tr v-for="admin in admins" class="secretTd__hover">
             <td> {{ admin.id }} </td>
             <td> {{ admin.name }} </td>
             <td> {{ admin.email }} </td>
+
+            <td class="secretTd__container">
+              <div class="secretTd">
+                <button type="button" class="btn btn-sm btn-outline-warning mr-2" @click="edit(admin.id)">
+                  <i class="icon-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-danger" @click="destroy({id: admin.id, name: admin.name })">
+                  <i class="icon-trash"></i>
+                </button>
+              </div>
+            </td>
+
           </tr>
         </tbody>
       </table>
@@ -31,10 +45,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Pagination from '../../common/Pagination.vue'
+import Loader from '../../common/components/Loader.vue'
+import Pagination from '../../common/components/Pagination.vue'
+import Filters from './Filters.vue'
 
 export default {
-  components: { Pagination },
+  components: { Pagination, Filters, Loader },
   data() {
     return {
       columns: ['#', 'Name', 'Email'],
@@ -45,16 +61,22 @@ export default {
     ...mapGetters({
       admins: 'admins/admins',
       links: 'admins/links',
-      meta: 'admins/meta'
+      meta: 'admins/meta',
+      listLoader: 'admins/listLoader'
     })
   },
   methods: {
     ...mapActions({
       get: 'admins/get'
-    })
+    }),
+
+    destroy({id, name}) {
+      this.$emit('destroy', {id, name})
+    },
+
+    edit(id) {
+      this.$emit('edit', id)
+    }
   },
-  created() {
-    this.get()
-  }
 }
 </script>

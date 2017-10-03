@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filters\UserFilters;
 
 class User extends Authenticatable
 {
@@ -37,12 +39,34 @@ class User extends Authenticatable
     ];
 
     /**
+     * Overwirte password attr on set
+     *
+     * @param string $password
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    /**
      * Check if user is Admin
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isAdmin()
     {
         return $this->is_admin;
+    }
+
+    /**
+     * activate Filters class
+     *
+     * @param  Builder        $builder
+     * @param  UserFilters $filters
+     * @return Builder
+     */
+    public function scopeFilter(Builder $builder, UserFilters $filters)
+    {
+        return $filters->apply($builder);
     }
 }
