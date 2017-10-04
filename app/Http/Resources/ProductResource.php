@@ -19,7 +19,7 @@ class ProductResource extends Resource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'price' => $this->price,
+            'price' => number_format($this->price, 2, '.', ''),
             'link' => $this->link,
             'image' => $this->storage_image,
             'vendor' => new VendorResource($this->whenLoaded('vendor')),

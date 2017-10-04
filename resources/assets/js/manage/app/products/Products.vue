@@ -1,34 +1,32 @@
 <template lang="html">
   <div class="mt-4">
 
-    <edit-product :categories="categories" :product-id="currentEditedId"></edit-product>
-    <delete-product :model-key="destroyObj.id" :model-name="destroyObj.title" @agree="destroy"></delete-product>
+    <products-edit></products-edit>
+    <products-delete :model-key="destroyObj.id" :model-name="destroyObj.title" @agree="del"></products-delete>
 
     <div class="row">
       <div class="col-md-8">
-        <product-list @destroy="askForDelete" @edit="openEditModal"></product-list>
+        <products-list @destroy="askForDelete" @edit="openEditModal"></products-list>
       </div>
       <div class="col-md-4">
-        <new-product-from-vendor :vendors="vendors" :categories="categories"></new-product-from-vendor>
+        <products-create-from-vendor></products-create-from-vendor>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CategoryRecursiveMixin from '../common/mixins/category_recursive'
-import NewProductFromVendor from './NewProductFromVendor.vue'
-import ProductList from './ProductList.vue'
-import EditProduct from './EditProduct.vue'
-import DeleteProduct from '../common/components/Delete.vue'
+import { mapActions } from 'vuex'
+import ProductsList from './components/List.vue'
+import ProductsEdit from './components/Edit.vue'
+import ProductsDelete from '../common/components/Delete.vue'
+import ProductsCreateFromVendor from './components/CreateFromVendor.vue'
+
 
 export default {
-  components: { NewProductFromVendor, ProductList, DeleteProduct, EditProduct },
-  mixins: [ CategoryRecursiveMixin ],
+  components: { ProductsEdit, ProductsList, ProductsDelete, ProductsCreateFromVendor },
   data() {
     return {
-      categories: [],
-      vendors: [],
       destroyObj: {
         id: null,
         title: null,
@@ -37,15 +35,12 @@ export default {
     }
   },
   methods: {
-    getVendors() {
-      axios.get(route('manage.vendors.index'), { params: { active: 1 } })
-        .then(response => this.vendors = response.data.data)
-    },
-
-    getCategories() {
-      axios.get(route('manage.categories.index'))
-        .then(response => this.categories = this.recursiveCategories(response.data.data))
-    },
+    ...mapActions({
+      getCategories: 'categories/get',
+      getVendors: 'vendors/get',
+      destroy: 'products/destroy',
+      single: 'products/single',
+    }),
 
     askForDelete({id, title}) {
       this.destroyObj.id = id
@@ -54,19 +49,13 @@ export default {
       $('#deleteModal').modal('show')
     },
 
-    destroy(productId) {
-      axios.delete(route('manage.products.destroy', { product: productId }))
-        .then(() => {
-
-          flash('Product was deleted')
-          window.events.$emit('products.get')
-
-        })
+    del(productId) {
+      this.destroy(productId).then(() => flash('Product deleted.'))
     },
 
     openEditModal(productId) {
 
-      this.currentEditedId = productId
+      this.single(productId)
       $('#editProductModal').modal('show')
 
     }

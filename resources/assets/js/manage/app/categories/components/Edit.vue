@@ -9,7 +9,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form @submit.prevent="update" @keyup="form.errors.clear($event.target.name)">
+        <form @submit.prevent="send" @keyup="form.errors.clear($event.target.name)">
           <div class="modal-body loader__container">
 
             <loader :active="loader"></loader>
@@ -43,47 +43,43 @@
 </template>
 
 <script>
-import { Form } from '../../../services/Form'
-import Loader from '../common/components/Loader.vue'
+import { mapGetters, mapActions } from 'vuex'
+import { Form } from '../../../../services/Form'
+import Loader from '../../common/components/Loader.vue'
 
 export default {
   components: { Loader },
-  props: ['category-slug'],
   data() {
     return {
-      loader: true,
       form: new Form({
         name: null,
         description: null,
       })
     }
   },
+  computed: {
+    ...mapGetters({
+      loader: 'categories/singleLoader',
+      category: 'categories/choosenCategory',
+    }),
+  },
   watch: {
-    categorySlug() {
-      this.get()
+    category(payload) {
+      this.form.name = payload.name
+      this.form.description = payload.description
     }
   },
   methods: {
 
-    get() {
-      this.loader = true
+    ...mapActions({
+      update: 'categories/update'
+    }),
 
-      axios.get(route('manage.categories.show', {category: this.categorySlug}))
-        .then((response) => {
-          this.loader = false
-          this.form.set(response.data.data)
-        })
-    },
-
-    update() {
-      axios.patch(route('manage.categories.update', {category: this.categorySlug}), this.form.data())
-        .then((response) => {
-
-          $('#editCategoryModal').modal('hide')
-          this.$emit('updated');
-          flash('Category updated!')
-
-        })
+    send() {
+      this.update(this.form).then(() => {
+        flash('Category updated.')
+        $('#editCategoryModal').modal('hide')
+      })
     }
   }
 }

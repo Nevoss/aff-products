@@ -17,6 +17,8 @@ export default {
     })
   },
 
+
+
   single({ commit }, adminId) {
     commit('setSingleLoader', true)
 
@@ -28,6 +30,8 @@ export default {
       }).catch().then(() => commit('setSingleLoader', false))
   },
 
+
+
   filtersChanged({ commit, dispatch }, filtersObject) {
     history.pushState(null, null, filtersObject.stringify())
 
@@ -36,12 +40,15 @@ export default {
     dispatch('get')
   },
 
+
+
   store({ dispatch }, formObj) {
     formObj.isSending = true
 
     return axios.post(route('manage.admins.store'), formObj.data())
       .then((response) => {
         dispatch('get')
+        formObj.reset();
         formObj.isSending = false
 
         return Promise.resolve(response.data)
@@ -51,6 +58,8 @@ export default {
         return Promise.reject(error.response.data)
       })
   },
+
+
 
   update({ dispatch, state }, formObj) {
     formObj.isSending = true
@@ -68,6 +77,8 @@ export default {
       })
   },
 
+
+
   destroy({ dispatch }, id) {
     return axios.delete(route('manage.admins.destroy', { admin: id }))
       .then((response) => {
@@ -76,5 +87,7 @@ export default {
         return Promise.resolve(id)
       }).catch(({response}) => Promise.reject(response))
   },
+
+
 
 }

@@ -1,18 +1,17 @@
 <template lang="html">
 <div class="mt-4">
 
-  <edit-category :category-slug="currentEditedSlug" @updated="get"></edit-category>
+  <categories-edit></categories-edit>
 
-  <delete-category :model-key="destroyObj.slug" :model-name="destroyObj.name" @agree="destroy">
+  <categories-delete :model-key="destroyObj.slug" :model-name="destroyObj.name" @agree="sendDestroy">
     if there this category has child categories they will be removed
-  </delete-category>
+  </categories-delete>
 
   <div class="row">
     <div class="col-md-8">
       <div class="card card-default">
         <div class="card-header d-flex align-items-center">
           Categories
-          <!-- <button type="button" class="btn btn-sm btn-outline-success ml-auto"> <i class="icon-plus"></i> New Category </button> -->
         </div>
         <div class="card-block loader__container">
           <categories-list :data-categories="categories" @destroy="askForDelete" @edit="openEditModal"></categories-list>
@@ -21,43 +20,45 @@
       </div>
     </div>
     <div class="col-md-4">
-      <new-category :data-categories="categories" @created="get"></new-category>
+      <categories-create></categories-create>
     </div>
   </div>
 </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import Loader from '../common/components/Loader.vue'
-import DeleteCategory from '../common/components/Delete.vue'
-import CategoriesList from './CategoriesList.vue'
-import NewCategory from './NewCategory.vue'
-import EditCategory from './EditCategory.vue'
+import CategoriesList from './components/List.vue'
+import CategoriesDelete from '../common/components/Delete.vue'
+import CategoriesCreate from './components/Create.vue'
+import CategoriesEdit from './components/Edit.vue'
 
 export default {
   components: {
-    CategoriesList, NewCategory, DeleteCategory, EditCategory, Loader
+    CategoriesList, CategoriesCreate, CategoriesDelete, CategoriesEdit, Loader
   },
   data() {
     return {
-      categories: [],
-      loader: false,
       destroyObj: {
         slug: null,
         name: null,
       },
-      currentEditedSlug: null,
     }
   },
+  computed: {
+    ...mapGetters({
+      categories: 'categories/categories',
+      loader: 'categories/listLoader',
+    }),
+  },
   methods: {
-    get() {
-      this.loader = true
 
-      axios.get(route('manage.categories.index'))
-        .then((response) => this.categories = response.data.data )
-        .catch()
-        .then(() => this.loader = false)
-    },
+    ...mapActions({
+      get: 'categories/get',
+      destroy: 'categories/destroy',
+      single: 'categories/single',
+    }),
 
     askForDelete({slug, name}) {
       this.destroyObj.slug = slug
@@ -66,15 +67,12 @@ export default {
       $('#deleteModal').modal('show')
     },
 
-    destroy(slug) {
-      axios.delete(route('manage.categories.destroy', slug)).then(() => {
-        this.get()
-        flash('Category Deleted')
-      })
+    sendDestroy(slug) {
+     this.destroy(slug).then(() => flash('Category deleted.'))
     },
 
     openEditModal(slug) {
-      this.currentEditedSlug = slug
+      this.single(slug)
 
       $('#editCategoryModal').modal('show')
     },

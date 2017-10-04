@@ -13,13 +13,15 @@
       {{ category.name }}
 
       <div class="mylist__actions ml-auto mr-3">
-        <!-- <button type="button" class="btn btn-sm btn-outline-success"> <i class="icon-plus"></i> Add Sub </button> -->
+
         <button type="button" class="btn btn-sm btn-outline-warning" @click="edit(category.slug)">
           <i class="icon-pencil"></i> Edit
         </button>
+
         <button type="button" class="btn btn-sm btn-outline-danger" @click="destroy({slug: category.slug, name: category.name})">
           <i class="icon-trash"></i> Delete
         </button>
+
       </div>
 
     </div>
@@ -36,7 +38,8 @@
 </template>
 
 <script>
-import CategoryList from './CategoriesList.vue'
+import Vue from 'vue'
+import CategoryList from './List.vue'
 
 export default {
   name: 'categories-list',

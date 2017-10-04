@@ -32,8 +32,9 @@
             {{ form.errors.get('description') }}
           </small>
         </div>
-        <button type="submit" class="btn btn-primary">
-          <i class="icon-paper-plane"></i>
+        <button type="submit" class="btn btn-primary" :disabled="this.form.isSending">
+          <i class="icon-paper-plane" v-if="!this.form.isSending"></i>
+          <i class="fa fa-spinner fa-pulse fa-fw" v-else></i>
           Send
         </button>
       </form>
@@ -42,17 +43,16 @@
 </template>
 
 <script>
-import { Form } from '../../../services/Form'
-import CategoryRecursiveMixin from '../common/mixins/category_recursive'
-import Loader from '../common/components/Loader.vue'
+import { mapGetters, mapActions } from 'vuex'
+import { Form } from '../../../../services/Form'
+import CategoryRecursiveMixin from '../../common/mixins/category_recursive'
+import Loader from '../../common/components/Loader.vue'
 
 export default {
   components: { Loader },
-  props: [ 'data-categories' ],
   mixins: [ CategoryRecursiveMixin ],
   data() {
     return {
-      categories: [],
       form: new Form({
         name: null,
         parent_id: '',
@@ -61,27 +61,19 @@ export default {
     }
   },
   computed: {
-    loader() {
-      return this.dataCategories.length == 0
-    }
-  },
-  watch: {
-    dataCategories(categories) {
-      this.categories = this.recursiveCategories(categories)
-    }
+    ...mapGetters({
+      categories: 'categories/categories',
+      loader: 'categories/listLoader',
+    })
   },
   methods: {
+    ...mapActions({
+      store: 'categories/store'
+    }),
+
     send() {
-      axios.post(route('manage.categories.store'), this.form.data())
-        .then((response) => {
-
-          this.$emit('created');
-          this.form.reset();
-          flash('Category created!')
-
-        }).catch((error) => {
-          this.form.errors.record(error.response.data.errors);
-        })
+      this.store(this.form)
+        .then(() => flash('Category created.'))
     },
   },
 }

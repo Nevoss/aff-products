@@ -54,6 +54,31 @@ class Product extends Model
     }
 
     /**
+    * get image attribute
+    *
+    * @param  string $value
+    * @return string
+    */
+    public function getStorageImageAttribute()
+    {
+        if ($this->attributes['image']) {
+            return Storage::url($this->attributes['image']);
+        }
+
+        return Storage::url('products/default.png');
+    }
+
+    /**
+     * Overwrite price attribute
+     *
+     * @param string $value
+     */
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = number_format($value, 2, '.', '');
+    }
+
+    /**
      * Reletion between Vendor
      *
      * @return Vendor
@@ -63,20 +88,6 @@ class Product extends Model
         return $this->belongsTo(Vendor::class);
     }
 
-    /**
-     * get image attribute
-     *
-     * @param  string $value
-     * @return string
-     */
-    public function getStorageImageAttribute()
-    {
-        if ($this->attributes['image']) {
-            return Storage::url($this->attributes['image']);
-        }
-
-        return Storage::url('products/default.png');
-    }
 
     /**
      * activate Filters class
